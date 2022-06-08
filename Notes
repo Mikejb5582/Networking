@@ -1,1 +1,61 @@
+DAY1
 
+  OSI model 
+    1. physical - hardware specifications, on/off switch, transmission/reception, encoding/signaling
+    2. data link - where layer 1 devices communicate, uses MAC address, LLC
+    3. network - (IP), headers basically. offsets n such
+    4. transport - tcp/udp, 3-way handshake 
+    5. session - maintatins connection,  
+    6. presentation - translation, formatting, encoding, encryption, compression
+    7. appllication - FTP, active/passive
+  Stuff & Things 
+    ssh - client/server authentication, symmetric session. data stream channeling, user/host - asymmetric
+    sudo tcpdump "ether[12:2] = 0x800" -d *** berkeley packet fitler for something idk
+    sudo tcpdump "tcp[13] & 0x01 = 0x01" *** packets with fin flag set
+    i dont know what is going on fr
+    
+    switch - only destination MAC, fragment free - first 64 bytes, layer 2
+          switch1#show mac address-table
+          
+    spanning tree protocol (STP) - elects root bridge, identifies root ports on non-root bridge, 
+                                    and desig. port for each segment, alt ports to blocking state
+    
+    CDP - layer 2 discovery protocol
+    Port security 0 shutdown, restrict, protect
+    
+    arpbroadcast=Ether(dst="ff:ff:ff:ff:ff:ff")/ARP(op=1, pdst="172.16.82.115")
+    arpspoofed=ARP(op=2, psrc="172.16.82.126", pdst="172.16.82.115", hwdst="fa:16:3e:24:20:44")
+ 
+  Router Commands
+    switch1#show mac-address table
+    show ip route
+    
+    T1
+Hostname: INTERNET_HOST
+External IP: 10.50.XXX.XXX (ALREADY PROVIDED)
+Internal IP: 10.10.0.40 (ALREADY PROVIDED)
+creds: student:password
+Action: Use as a pivot to access T2
+
+T2
+Hostname: BLUE_HOST-1
+IP: 172.16.82.106
+creds: student:password
+Action: Successfully perform a ARP MitM using Scapy
+
+T3
+Hostname: BLUE_HOST-4
+IP: 172.16.82.115
+creds: (none)
+Action: Suspected client recieving sensitive information
+
+T4
+Hostname: BLUE_POP-Router
+IP: 172.16.82.126
+creds: vyos:password
+Action: Gateway of the network
+
+
+
+ip[8]=1&&(ip[9]=1||ip[9]=17)
+    
