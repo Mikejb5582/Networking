@@ -30,32 +30,7 @@ DAY1
     switch1#show mac-address table
     show ip route
     
-    T1
-Hostname: INTERNET_HOST
-External IP: 10.50.XXX.XXX (ALREADY PROVIDED)
-Internal IP: 10.10.0.40 (ALREADY PROVIDED)
-creds: student:password
-Action: Use as a pivot to access T2
-
-T2
-Hostname: BLUE_HOST-1
-IP: 172.16.82.106
-creds: student:password
-Action: Successfully perform a ARP MitM using Scapy
-
-T3
-Hostname: BLUE_HOST-4
-IP: 172.16.82.115
-creds: (none)
-Action: Suspected client recieving sensitive information
-
-T4
-Hostname: BLUE_POP-Router
-IP: 172.16.82.126
-creds: vyos:password
-Action: Gateway of the network
-
-
+    
 DAY2
   Sockets & Such
     User Space - common, does not require priv esc. 
@@ -77,3 +52,52 @@ DAY2
     
 ip[8]=1&&(ip[9]=1||ip[9]=17)
     
+    
+DAY3
+  uhh
+  curl ip:port
+  wget -r ftp://localhost
+  
+DAY4
+  ftps - tcp port 443
+  scp - tcp port 22
+  download remote to local
+  scp student@xxx.xxx.xxx.xxx:secrets.txt /home/student
+  upload remote to local
+  scp secrets.txt student@xxx.xxx.xxx.xxx:/home/student
+  copy from remote to remote
+  scp -3 student@xxx.xxx.xxx.2:/home/student/secrets.txt student@xxx.xxx.xxx.1:/home/student
+  *** more syntax in slides
+  
+  client to listener
+  Client (sends file): nc 10.2.0.2 9001 < file.txt
+  Listener (receive file): nc -l -p 9001 > newfile.txt
+  
+  listener to client
+  Listener (sends file): nc -l -p 9001 < file.txt
+  Client (receive file): nc 10.2.0.2 9001 > newfile.txt
+  
+  netcat file tranfer:
+  on client
+  mknod mypipe p
+  nc 10.1.0.2 9002 0< mypipe | nc 10.2.0.2 9001 1> mypipe
+  on listener 2 (sends)
+  nc -l -p 9002 < infile.txt
+  on listener 1 (recieves)
+  nc -l -p 9001 > outfile.txt
+  
+  /dev/tcp file transfer
+  on receiving box
+  nc -l -p 1111 > file.txt
+  on sending box
+  cat file.txt > /dev/tcp/10.2.0.2/1111
+  *** when netcat is not available
+  
+  
+  6abd7feac505f1384e6f98e3d1e8ba95
+  
+  
+  
+  
+  
+  
