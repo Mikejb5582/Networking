@@ -57,6 +57,8 @@ DAY3
   uhh
   curl ip:port
   wget -r ftp://localhost
+  nc -u
+  eog
   
 DAY4
   ftps - tcp port 443
@@ -74,7 +76,7 @@ DAY4
   Listener (receive file): nc -l -p 9001 > newfile.txt
   
   listener to client
-  Listener (sends file): nc -l -p 9001 < file.txt
+  Listener (sends file): nc -l -p 9001 < file.txt32424    
   Client (receive file): nc 10.2.0.2 9001 > newfile.txt
   
   netcat file tranfer:
@@ -93,11 +95,70 @@ DAY4
   cat file.txt > /dev/tcp/10.2.0.2/1111
   *** when netcat is not available
   
+DAY5
+ssh local port forwarding syntax
+      ssh -p <optional alt port> <user>@<pivot ip> -L <local bind port>:<tgt ip>:<tgt port> -NT
+      or
+      ssh -L <local bind port>:<tgt ip>:<tgt port> -p <alt port> <user>@<pivot ip> -NT
+
+      Creates a local port (1111) on the local host that forwards to a target machine’s port 80.
+      ssh student@172.16.82.106 -L 1111:localhost:80 -NT
+      or
+      ssh -L 1111:localhost:80 student@172.16.82.106 -NT
+
+      Internet Host:
+      ssh student@172.16.1.15 -L 1111:172.16.40.10:22 -NT
+      ssh student@localhost -p 1111 -L 2222:172.16.82.106:80 -NT
+      firefox localhost:2222
+      Creates an additional local port on the local host that forwards to a target machine through the previous channel created
   
-  6abd7feac505f1384e6f98e3d1e8ba95
   
   
-  
-  
-  
-  
+ssh dynamic port fowarding syntax *** allows scripts/userspace programs to be ran through tunnel
+      ssh -D <port> -p <alt port> <user>@<pivot ip> -NT
+        Blue Private Host-1:
+      ssh student@172.16.82.106 -D 9050 -NT
+
+      proxychains ./scan.sh
+      proxychains ssh student@10.10.0.40
+
+
+      proxychain commands are ran from blue private host, directed to 10.10.0.40
+      Blue Private Host-1:
+      ssh student@172.16.82.106 -L 1111:10.10.0.40:22 -NT
+      ssh student@localhost -D 9050 -p 1111 -NT
+
+      proxychains curl ftp://www.onlineftp.ch
+      proxychains wget -r www.espn.com
+      proxychains ./scan.sh
+      proxychains ssh student@172.16.101.2
+ssh remote port forwarding
+      ssh -p <optional alt port> <user>@<remote ip> -R <remote bind port>:<tgt ip>:<tgt port> -NT
+      or
+      ssh -R <remote bind port>:<tgt ip>:<tgt port> -p <alt port> <user>@<remote ip> -NT
+     Blue Host-1
+      ssh student@10.10.0.40 -R 1111:localhost:80 -NT
+        ***Creates a remote port on the remote’s local host that forwards to the target specified
+     
+     Blue Private Host-1:
+      ssh student@172.16.82.106 -R 1111:localhost:22 -NT
+     Internet Host:
+      ssh student@172.16.82.106 -L 2222:localhost:1111 -NT
+     Internet Host:
+      ssh localhost -p 2222
+        ***Creates a remote port on a remote machine, staging a connection
+        ***Also creates a local port on the localhost to connect to the previously staged connection.
+   for i in {1..254} ;do (ping -c <NID>.$1 2>/dev/null | grep "bytes from" &) ;done
+        
+        
+        
+        from pineland
+        
+        10.2.0.1:52914          10.4.0.138:22           SYN_SENT    on 
+        10.2.0.1:52564          10.5.0.26:23            SYN_SENT    on 
+        10.2.0.1:33692          10.5.0.14:21            SYN_SENT    on
+        10.2.0.1:42166          10.5.0.23:22            SYN_SENT    on
+        10.2.0.1:47186          10.5.0.78:23            SYN_SENT    on
+        10.2.0.1:56520          10.2.0.37:80            SYN_SENT    on
+        10.2.0.1:46698          10.4.0.116:80           SYN_SENT    on
+        
