@@ -32,68 +32,68 @@ DAY1
     
     
 DAY2
-  Sockets & Such
-    User Space - common, does not require priv esc. 
-      nmap no switches, netcat, create listener above 1024, /dev/tcp(/udp) to transfer data
-        stream - connection oriented, tcp ,sctp, bluetooth
-        datagram - connectionless, speed, udp
-    Kernel Space - used to prevent encap/decapsulation, require priv esc.
-      tcpdump/wireshark to capture, nmap for enumeration, create lisenter -1023, scapy
-        raw - direct in/out IP packets without auto protocol-specific formatting
-    
-    
-    import socket
-  s = socket.socket(socket.FAMILY, socket.TYPE, socket.PROTOCOL)
-  socket.socket([*family*[,*type*[*proto*]]])
-  family constants should be: AF_INET (default), AF_INET6, AF_UNIX
-  type constants should be: SOCK_STREAM (default), SOCK_DGRAM, SOCK_RAW
-  proto constants should be: 0 (default), IPPROTO_RAW
-  
-    
-ip[8]=1&&(ip[9]=1||ip[9]=17)
-    
+    Sockets & Such
+      User Space - common, does not require priv esc. 
+        nmap no switches, netcat, create listener above 1024, /dev/tcp(/udp) to transfer data
+          stream - connection oriented, tcp ,sctp, bluetooth
+          datagram - connectionless, speed, udp
+      Kernel Space - used to prevent encap/decapsulation, require priv esc.
+        tcpdump/wireshark to capture, nmap for enumeration, create lisenter -1023, scapy
+          raw - direct in/out IP packets without auto protocol-specific formatting
+
+
+      import socket
+    s = socket.socket(socket.FAMILY, socket.TYPE, socket.PROTOCOL)
+    socket.socket([*family*[,*type*[*proto*]]])
+    family constants should be: AF_INET (default), AF_INET6, AF_UNIX
+    type constants should be: SOCK_STREAM (default), SOCK_DGRAM, SOCK_RAW
+    proto constants should be: 0 (default), IPPROTO_RAW
+
+
+  ip[8]=1&&(ip[9]=1||ip[9]=17)
+
     
 DAY3
-  uhh
-  curl ip:port
-  wget -r ftp://localhost
-  nc -u
-  eog
+    uhh
+    curl ip:port
+    wget -r ftp://localhost
+    nc -u
+    eog
   
 DAY4
-  ftps - tcp port 443
-  scp - tcp port 22
-  download remote to local
-  scp student@xxx.xxx.xxx.xxx:secrets.txt /home/student
-  upload remote to local
-  scp secrets.txt student@xxx.xxx.xxx.xxx:/home/student
-  copy from remote to remote
-  scp -3 student@xxx.xxx.xxx.2:/home/student/secrets.txt student@xxx.xxx.xxx.1:/home/student
-  *** more syntax in slides
-  
-  client to listener
-  Client (sends file): nc 10.2.0.2 9001 < file.txt
-  Listener (receive file): nc -l -p 9001 > newfile.txt
-  
-  listener to client
-  Listener (sends file): nc -l -p 9001 < file.txt32424    
-  Client (receive file): nc 10.2.0.2 9001 > newfile.txt
-  
-  netcat file tranfer:
-  on client
-  mknod mypipe p
-  nc 10.1.0.2 9002 0< mypipe | nc 10.2.0.2 9001 1> mypipe
-  on listener 2 (sends)
-  nc -l -p 9002 < infile.txt
-  on listener 1 (recieves)
-  nc -l -p 9001 > outfile.txt
-  
-  /dev/tcp file transfer
-  on receiving box
-  nc -l -p 1111 > file.txt
-  on sending box
-  cat file.txt > /dev/tcp/10.2.0.2/1111
-  *** when netcat is not available
+    ftps - tcp port 443
+    scp - tcp port 22
+    download remote to local
+    scp student@xxx.xxx.xxx.xxx:secrets.txt /home/student
+    upload remote to local
+    scp secrets.txt student@xxx.xxx.xxx.xxx:/home/student
+    copy from remote to remote
+    scp -3 student@xxx.xxx.xxx.2:/home/student/secrets.txt student@xxx.xxx.xxx.1:/home/student
+    *** more syntax in slides
+
+    client to listener
+    Client (sends file): nc 10.2.0.2 9001 < file.txt
+    Listener (receive file): nc -l -p 9001 > newfile.txt
+
+    listener to client
+    Listener (sends file): nc -l -p 9001 < file.txt32424    
+    Client (receive file): nc 10.2.0.2 9001 > newfile.txt
+
+    netcat file tranfer:
+    on client
+    mknod mypipe p
+    nc 10.1.0.2 9002 0< mypipe | nc 10.2.0.2 9001 1> mypipe
+    on listener 2 (sends)
+    nc -l -p 9002 < infile.txt
+    on listener 1 (recieves)
+    nc -l -p 9001 > outfile.txt
+
+    /dev/tcp file transfer
+    on receiving box
+    nc -l -p 1111 > file.txt
+    on sending box
+    cat file.txt > /dev/tcp/10.2.0.2/1111
+    *** when netcat is not available
   
 DAY5
 ssh local port forwarding syntax
@@ -205,3 +205,14 @@ DAY6
       iptables -t [table] -I [chain] [rule num] [rules] -j [action]             #Inserts rule before Rule number
       iptables -t [table] -R [chain] [rule num] [rules] -j [action]             #Replaces rule at number
       iptables -t [table] -D [chain] [rule num]                                 #Deletes rule at number
+      
+DAY7
+      /etc/snort/rules
+      
+      
+      
+      
+      
+      
+      
+      
