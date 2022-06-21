@@ -152,13 +152,56 @@ ssh remote port forwarding
         
         
         
-        from pineland
         
-        10.2.0.1:52914          10.4.0.138:22           SYN_SENT    on 
-        10.2.0.1:52564          10.5.0.26:23            SYN_SENT    on 
-        10.2.0.1:33692          10.5.0.14:21            SYN_SENT    on
-        10.2.0.1:42166          10.5.0.23:22            SYN_SENT    on
-        10.2.0.1:47186          10.5.0.78:23            SYN_SENT    on
-        10.2.0.1:56520          10.2.0.37:80            SYN_SENT    on
-        10.2.0.1:46698          10.4.0.116:80           SYN_SENT    on
-        
+DAY6
+      Configuring iptables
+      iptables - IPv4 packet administration link::http://ipset.netfilter.org/iptables.man.html[(Manual)], link::http://ipset.netfilter.org/iptables-extensions.man.html[(Manual Extensions)]
+      ip6tables - IPv6 packet administration link::http://ipset.netfilter.org/ip6tables.man.html[(Manual)]
+      ebtables - Ethernet Bridge frame table administration link::https://linux.die.net/man/8/ebtables[(Manual)]
+      arptables - arp packet administration link::https://linux.die.net/man/8/arptables[(Manual)]
+      filter - default table. Used to ACCEPT, DROP or REJECT packets that match. Provides packet filtering.
+      INPUT, FORWARD, and OUTPUT
+      nat - used to translate private ←→ public address and ports.
+      PREROUTING, POSTROUTING, and OUTPUT
+      mangle - provides special packet alteration. Can modify various fields header fields.
+      All Chains: PREROUTING, POSTROUTING, INPUT, FORWARD and OUTPUT.
+      raw - used to configure exemptions from connection tracking.
+      PREROUTING and OUTPUT
+      security - used for Mantator Access Control (MAC) networkign rules.
+      INPUT, FORWARD, and OUTPUT
+      iptables Syntax
+      iptables -t [table] -A [chain] [rules] -j [action]
+      Rules:
+      -i or -o [iface]
+      -s or -d [ip.add | network/mask]
+      -p [protocol] [--dport | --sport] [port | port1:port2]
+      -m is used with:
+        state --state [state]
+        mac [--mac-source | --mac-destination] [mac]
+        multiport -p [tcp | udp] [--sport | --dport | --port]
+                [port1,port2,..port15]
+        bpf --bytecode [ 'bytecode' ]
+      [action] - ACCEPT (default), REJECT, DROP
+      Basic iptables options
+      -A              #Append a rule (bottom of list)
+      -I              #Insert a rule (top of list)
+      -D              #Delete a rule Syntax: iptables -D [chain][rule_#]
+      -L              #List the rules by chains
+      -P              #Changes the default policy for a chain Syntax: iptables -P [chain] [target]
+      -S              #Show rules
+      -p              #list a potocol (tcp,icmp,sctp,etc.)
+      --sport         #address a specific port number
+      --dport
+      -d              #Destination Address
+      -s              #Source Address
+      -j              #jump to target action
+      -n              #displays port number vice protocol
+      -t              #specifies a table, default is filter
+      --line numbers  #prints the rule number in output
+      Modify iptables
+      iptables -t [table] -F                                                    #Flush table
+      iptables -t [table] -P [chain] [action]                                   #Change default policy
+      iptables -t [table] -L --line-numbers                                     #Lists rules with rule numbers
+      iptables -t [table] -I [chain] [rule num] [rules] -j [action]             #Inserts rule before Rule number
+      iptables -t [table] -R [chain] [rule num] [rules] -j [action]             #Replaces rule at number
+      iptables -t [table] -D [chain] [rule num]                                 #Deletes rule at number
