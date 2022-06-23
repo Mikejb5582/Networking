@@ -293,7 +293,7 @@ DAY7
       inethost >> ssh -p 11191 net1_student11@localhost -D 9050
       
       
-      
+      scp -P 32408 net3_student24@localhost:/usr/share/cctc/* .
       
         import socket
         ip = '----'
