@@ -256,7 +256,62 @@ DAY7
       alert ip 10.1.0.0/16 33389 -> any 3389 (msg:"WEINER"; sid: 420699;)
       alert tcp any any -> any 22 (threshold:type both, track by_src, count 3, seconds 10; sid:1000003;)
 
+
+      for i in {1..254} ;do (ping -c 1 192.168.1.$i 2>/dev/null | grep "bytes from" &) ;done
+      nmap -Pn <IP> -p 21,22,23,80 -T4 --min-rate=8000
+      
+      sudo iptables -t mangle -A POSTROUTING -j TTL --ttl-set 255
+      
+
+      TUNNELING TO CAPSTONE 7 SSH
+      ----------------------------
+
+      inethost >> ssh net1_student11@10.50.27.11 -p 7777 -L 11110:localhost:7777
+      inethost >> ssh net1_student11@localhost -p 11110 -L 11105:10.2.2.7:23
+      inethost >> telnet localhost 11105
+      cap-07   >> ssh net1_student11@10.2.2.6 -p 7777 -R 11120:localhost:2222
+      inethost >> ssh net1_student11@10.50.27.11 -p 7777 -L 11130:localhost:11120
+      inethost >> ssh net1_student11@localhost -p 11130 -D 9050
+
+      ````````````````````````````````````````````````````````````````````````````````
+      ADDITIONAL PIVOTING TO CAPSTONE 8 SSH
+      ((contunuing from capstone 7))
+      inethost >> ssh net1_student11@localhost -p 11130 -L 11150:10.10.10.140:301
+      itethost >> ssh -p 11150 net1_Student11@localhost -D 9050
+      +-------------------------------------------------------------------------------+
+
+      ADDITIONAL PIVOTING TO CAPSTONE 10 SSH
+      ((continuing from capstone 7))
+      inethost >> ssh net1_student11@localhost -p 11130 -L 11160:10.10.10.167:404
+      inethost >> ssh -p 11160 net1_student11@localhost -D 9050
+      +--------------------------------------------------------------------------------+
+      ADDITIONAL PIVOTING TO CAPSTONE 12 SSH
+      (continuing from capstone 7))
+      inethost >> ssh
+      inethost >> ssh net1_student11@localhost -p 11130 -L 11190:10.10.10.182:504
+      inethost >> ssh -p 11190 net1_student11@localhost -L 11191:192.168.10.101:22
+      inethost >> ssh -p 11191 net1_student11@localhost -D 9050
       
       
       
-      953e720e688941b15b72c098022c51c3
+      
+        import socket
+        ip = '----'
+        port = ----
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect ((ip, port))
+        #To send a string as bytes like object add the prefix b to the string. \n is used to go to the nextline
+        s.send(b'----------')
+        #It is recommended that the buffersize used with recvfrom is a power of 2 (even number) and not a very large number
+        response, con = s.recvfrom(1024)
+        #In order to receive a message that is sent as a bytes like object you must decode into uft-8 (this is default)
+        print(response.decode())
+        s.close()
+      
+      
+      
+      
+      
+      
+      
+      
